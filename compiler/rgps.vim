@@ -12,6 +12,6 @@ if exists(':CompilerSet') != 2              " older Vim always used :setlocal
 endif
 
 "                    path to rgps.ps1       
-CompilerSet makeprg=C:\\Users\\Seve\\bin\\rgps.ps1 -pattern 
+CompilerSet makeprg=..\plugin\ps1\rgps.ps1 -pattern 
 
 CompilerSet errorformat=%f:%l:%c:%m

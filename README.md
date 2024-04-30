@@ -1,6 +1,5 @@
 # vim9psgrep
-vim9psgrep is a Vim9script plugin that integrates the power of ripgrep with Vim, utilizing a PowerShell script as a wrapper. It provides a compiler that feeds search results directly into Vim's quickfix list, enhancing your code navigation and editing workflow.
-
+vim9psgrep is a Vim9script plugin that integrates the power of ripgrep with Vim, utilizing a PowerShell script as a wrapper and VB popups. 
 
 
 ## Features
@@ -11,23 +10,23 @@ vim9psgrep is a Vim9script plugin that integrates the power of ripgrep with Vim,
 
 ## Prerequisites
 - Vim9script
-- PowerShell
+- PowerShell (Desktop and Core)
 - ripgrep (rg.exe)
 
 ## Installation
-Clone this repository into your Vim plugin directory to install vim9psgrep. Ensure you have all the prerequisites installed.
+```sh   
+    Plug 'sevehub/vim9psgrep'
+```
 
 ## Usage
-Invoke vim9psgrep within Vim to search for text patterns:
+Pre-setted mapping
 
-
-:PsGrep <pattern>
+ - `<leader>gw` -- Locate the word under the cursor  (as *g*rep *w*ord)
+ - `<leader>gp` -- Open a popup and enter a pattern  (as *g*rep *p*attern) 
 
 
 Your search will compile results into the quickfix list for you to navigate through.
 
-## Configuration
-Customize vim9psgrep by setting options in your `.vimrc` file to fit your preferences.
 
 ## Notice
 This repository is in the early stages of development and is not yet ready for general use. We are actively working on adding features and refining the project. Stay tuned for updates!
