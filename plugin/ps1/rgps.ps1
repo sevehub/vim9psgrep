@@ -13,24 +13,7 @@ if (-not(Get-Command "rg" -ErrorAction SilentlyContinue)) {
 
 # TODO Exclusion files and folders
 # Search for the pattern using ripgrep
-$Exclude = "-g '*'"
-           # -g '!\.bzr/'  
-           #-g '!\.git/' 
-           #-g '!\.hg/' 
-           #-g '!\.mypy_cache/' 
-           #-g '!\.pytest_cache/' 
-           #-g '!\.ruff_cache/' 
-           #-g '!\.svn/' 
-           #-g '!\.testrepository/' 
-           #-g '!\.tox/' 
-           #-g '!*\.egg-info/' 
-           #-g '!__pycache__/' 
-           #-g '!node_modules/' -g '!build/' 
-           #-g '!dist/' 
-           #-g '!env/' 
-           #-g '!.venv/' .`
-$rgOutput = rg --column --line-number --no-heading --color never $pattern -g '*' .
-
+$rgOutput = rg --column --line-number --no-heading --color never $pattern -g "!node_modules/" -g "!\.git/" . 
 # Process the output to match the desired format
 $rgOutput | ForEach-Object {
     $splitLine = $_ -split ':'

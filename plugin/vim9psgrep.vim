@@ -30,23 +30,32 @@ endif
 
 var rg_command = psgrep.PsScript_Path( expand('<sfile>:p:h') ) .. 'rgps.ps1'
 var rg_prompt = psgrep.PsScript_Path( expand('<sfile>:p:h') ) .. 'prompt_popup.ps1'
+var notification = psgrep.PsScript_Path( expand('<sfile>:p:h') ) .. 'ShowNotification.ps1'
+
 
 # as in grep word
 nnoremap <leader>gw <Cmd>Rgr<CR>
 nnoremap <leader>gp <Cmd>Sprompt<CR>
 command! -narg=0 Rgr Run_rg() | copen
-command! -narg=0 Sprompt Prompt_popup() | copen
+command! -narg=0 Sprompt Prompt_popup() 
 
 # TODO visual selection
+var  quickfixlist = []  
+
 
 # open a prompt for query 
 def Prompt_popup(): void
-       
-    call setqflist([], ' ', {'title': '', 'lines': systemlist(rg_prompt)})
-   
+    quickfixlist =  systemlist(rg_prompt)
+    if quickfixlist->len() > 0
+        call setqflist([], ' ', {'title': '', 'lines': quickfixlist })
+        copen
+    else
+        system(notification .. "-CustomMessage Oops! 'The specified pattern was not found in the data.'")
+    endif
 enddef
 
 def Run_rg(): void
+
     echom 'searching files for pattern: ' .. rg_command .. ' -pattern "' .. expand('<cword>') .. '"'
 
     call setqflist([], ' ', {'title': expand('<cword>') ..  ' found in:', 'lines': systemlist(rg_command .. ' -pattern "' .. expand('<cword>') .. '"')})
