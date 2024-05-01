@@ -14,7 +14,7 @@ if (-not(Get-Command "rg" -ErrorAction SilentlyContinue)) {
 
 # If the user clicks Cancel, a zero-length string is returned.
 if ($pattern.Length -ne 0){
-    $rgOutput = rg --column --line-number --no-heading --color never ${pattern} $pattern -g "!node_modules/" -g "!\.git/" .
+    $rgOutput = rg --column --line-number --no-heading --color never ${pattern} -g "!node_modules/" -g "!\.git/" .
 # Process the output to match the desired format
         $rgOutput | ForEach-Object {
             $splitLine = $_ -split ':'

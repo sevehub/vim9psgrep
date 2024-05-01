@@ -36,12 +36,12 @@ var notification = psgrep.PsScript_Path( expand('<sfile>:p:h') ) .. 'ShowNotific
 # as in grep word
 nnoremap <leader>gw <Cmd>Rgr<CR>
 nnoremap <leader>gp <Cmd>Sprompt<CR>
-command! -narg=0 Rgr Run_rg() | copen
+command! -narg=0 Rgr Run_rg() 
 command! -narg=0 Sprompt Prompt_popup() 
 
 # TODO visual selection
 var  quickfixlist = []  
-
+var  cword = ""
 
 # open a prompt for query 
 def Prompt_popup(): void
@@ -50,14 +50,21 @@ def Prompt_popup(): void
         call setqflist([], ' ', {'title': '', 'lines': quickfixlist })
         copen
     else
-        system(notification .. "-CustomMessage Oops! 'The specified pattern was not found in the data.'")
+        system(notification .. " -CustomMessage 'Oops! The specified pattern was not found.'")
     endif
 enddef
 
 def Run_rg(): void
 
-    echom 'searching files for pattern: ' .. rg_command .. ' -pattern "' .. expand('<cword>') .. '"'
+    cword = expand('<cword>') 
 
-    call setqflist([], ' ', {'title': expand('<cword>') ..  ' found in:', 'lines': systemlist(rg_command .. ' -pattern "' .. expand('<cword>') .. '"')})
-
+    echo 'Searching files for pattern: ' .. rg_command .. ' -pattern "' .. cword .. '"'
+    
+    quickfixlist =  systemlist(rg_command .. ' -pattern "' .. cword .. '"')
+    if quickfixlist->len() > 0
+        call setqflist([], ' ', {'title': expand('<cword>') ..  ' found in:', 'lines': quickfixlist })
+        copen
+    else
+        system(notification .. " -CustomMessage 'Oops! " .. cword .. " was not found.'")
+    endif
 enddef
