@@ -9,7 +9,7 @@ Add-Type -AssemblyName System.Windows.Forms
 $global:balmsg = New-Object System.Windows.Forms.NotifyIcon
 $balmsg.Icon = [System.Drawing.SystemIcons]::Information
 $balmsg.BalloonTipIcon = [System.Windows.Forms.ToolTipIcon]::Info
-$balmsg.BalloonTipTitle = "Custom Notification"
+$balmsg.BalloonTipTitle = "Nothing Found"
 $balmsg.BalloonTipText = $CustomMessage
 $balmsg.Visible = $true
 

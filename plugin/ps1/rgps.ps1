@@ -11,9 +11,9 @@ if (-not(Get-Command "rg" -ErrorAction SilentlyContinue)) {
     exit 1
 }
 
-# TODO Exclusion files and folders
+$global_ignore = Join-Path -Path $PSScriptRoot -ChildPath 'global.ignore'
 # Search for the pattern using ripgrep
-$rgOutput = rg --column --line-number --no-heading --color never $pattern -g "!node_modules/" -g "!\.git/" . 
+$rgOutput = rg --column --line-number --no-heading --color never $pattern --ignore-file $global_ignore . 
 # Process the output to match the desired format
 $rgOutput | ForEach-Object {
     $splitLine = $_ -split ':'

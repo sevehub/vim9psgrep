@@ -16,11 +16,11 @@ if executable('pwsh.exe')
         set shellxquote="
         set shellpipe=>%s\ 2>&1
         set shellredir=>%s\ 2>&1
-# vim support for powershell desktop isn't perfect 
+## vim support for powershell desktop isn't perfect 
 elseif executable('powershell.exe')
         set shell=powershell.exe
         set shellcmdflag=-Command
-        # must be empty !
+        ## must be empty shellxquote !
         set shellxquote=   
         set shellpipe=>%s\ 2>&1
         set shellredir=>%s\ 2>&1
@@ -31,17 +31,22 @@ endif
 var rg_command = psgrep.PsScript_Path( expand('<sfile>:p:h') ) .. 'rgps.ps1'
 var rg_prompt = psgrep.PsScript_Path( expand('<sfile>:p:h') ) .. 'prompt_popup.ps1'
 var notification = psgrep.PsScript_Path( expand('<sfile>:p:h') ) .. 'ShowNotification.ps1'
-
+var ignore = psgrep.PsScript_Path( expand('<sfile>:p:h') ) .. 'global.ignore'
 
 # as in grep word
 nnoremap <leader>gw <Cmd>Rgr<CR>
 nnoremap <leader>gp <Cmd>Sprompt<CR>
 command! -narg=0 Rgr Run_rg() 
 command! -narg=0 Sprompt Prompt_popup() 
-
+command! -narg=0 DotIgnore DotIgnore()
 # TODO visual selection
 var  quickfixlist = []  
 var  cword = ""
+
+
+def DotIgnore(): void
+    execute 'new ' .. ignore
+enddef
 
 # open a prompt for query 
 def Prompt_popup(): void

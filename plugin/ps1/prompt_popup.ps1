@@ -1,4 +1,9 @@
 # Load the Microsoft.VisualBasic assembly
+
+# $OutputEncoding = [System.Text.Encoding]::UTF8
+# $PSDefaultParameterValues['Out-File:Encoding'] = 'ascii'
+
+
 [void][Reflection.Assembly]::LoadWithPartialName('Microsoft.VisualBasic')
 
 # Prompt the user for input
@@ -12,9 +17,11 @@ if (-not(Get-Command "rg" -ErrorAction SilentlyContinue)) {
     exit 1
 }
 
+$global_ignore = Join-Path -Path $PSScriptRoot -ChildPath 'global.ignore'
+
 # If the user clicks Cancel, a zero-length string is returned.
 if ($pattern.Length -ne 0){
-    $rgOutput = rg --column --line-number --no-heading --color never ${pattern} -g "!node_modules/" -g "!\.git/" .
+    $rgOutput = rg --column --line-number --no-heading --color never ${pattern} --ignore-file $global_ignore .
 # Process the output to match the desired format
         $rgOutput | ForEach-Object {
             $splitLine = $_ -split ':'
