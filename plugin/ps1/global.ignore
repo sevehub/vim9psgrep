@@ -1,6 +1,15 @@
 node_modules/
 .git/
+.github/
 *.tar
 *.zip
 bin/
 *.min.*
+.ipynb_checkpoints/
+.egg-info/
+*.png
+__pycache__/
+venv/
+.gitattributes
+*.svg
+*.gzip

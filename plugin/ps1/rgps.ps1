@@ -24,3 +24,5 @@ $rgOutput | ForEach-Object {
     # Correctly format the output
     "${filePath}:$($line):$($column):${textLine}"
 }
+
+
