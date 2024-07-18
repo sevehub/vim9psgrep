@@ -27,6 +27,7 @@ endif
 
 var rg_command = psgrep.Create_PS_Command(powershell_version, true) ..  psgrep.PsScript_Path( expand('<sfile>:p:h') ) .. 'rgps.ps1'
 var rg_prompt =  psgrep.Create_PS_Command(powershell_version, true) .. psgrep.PsScript_Path( expand('<sfile>:p:h') ) .. 'prompt_popup.ps1'
+var ast_grep =  psgrep.Create_PS_Command(powershell_version, true) .. psgrep.PsScript_Path( expand('<sfile>:p:h') ) .. 'ast_grep.ps1'
 var notification =  psgrep.Create_PS_Command(powershell_version, true) .. psgrep.PsScript_Path( expand('<sfile>:p:h') ) .. 'ShowNotification.ps1'
 var ignore =  psgrep.PsScript_Path( expand('<sfile>:p:h') ) .. 'global.ignore'
 
@@ -34,6 +35,8 @@ var ignore =  psgrep.PsScript_Path( expand('<sfile>:p:h') ) .. 'global.ignore'
 nnoremap <leader>gw <Cmd>Rgr<CR>
 nnoremap <leader>gp <Cmd>Sprompt<CR>
 nnoremap <leader>gr <Cmd>Rprompt<CR>
+nnoremap <leader>ga <Cmd>AstGrep<CR>
+command! -narg=0 AstGrep AstGrep() 
 command! -narg=0 Rgr Run_rg() 
 command! -narg=0 Sprompt Prompt_popup() 
 command! -narg=0 Rprompt Rprompt()
@@ -68,14 +71,25 @@ def Prompt_popup(): void
     endif
 enddef
 
+def AstGrep(): void
+    quickfixlist =  systemlist(ast_grep)
+    if quickfixlist->len() > 0
+        call setqflist([], ' ', {'title': '', 'lines': quickfixlist })
+        copen
+    else
+        system(notification .. " -CustomMessage 'Oops! The specified pattern was not found.'")
+    endif
+enddef
+
 def Rprompt(): void
    var opts = {} 
    cword = expand('<cword>') 
    # TODO set pattern from cword
    if cword->len() > 0
-    # echo cword
    else
    endif
+
+
    if serpl_exe_path != ""
     opts = {
         "term_finish": "close",
