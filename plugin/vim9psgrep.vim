@@ -10,6 +10,7 @@ import autoload "../autoload/vim9psgrep/psgrep.vim"
 var powershell_version = 5
 var serpl_exe_path = ""
 var sandr = ""
+
 if exists('g:powershell_version')
     powershell_version = g:powershell_version
 endif
@@ -29,6 +30,7 @@ var rg_command = psgrep.Create_PS_Command(powershell_version, true) ..  psgrep.P
 var rg_prompt =  psgrep.Create_PS_Command(powershell_version, true) .. psgrep.PsScript_Path( expand('<sfile>:p:h') ) .. 'prompt_popup.ps1'
 var ast_grep =  psgrep.Create_PS_Command(powershell_version, true) .. psgrep.PsScript_Path( expand('<sfile>:p:h') ) .. 'ast_grep.ps1'
 var notification =  psgrep.Create_PS_Command(powershell_version, true) .. psgrep.PsScript_Path( expand('<sfile>:p:h') ) .. 'ShowNotification.ps1'
+
 var ignore =  psgrep.PsScript_Path( expand('<sfile>:p:h') ) .. 'global.ignore'
 
 # as in grep word

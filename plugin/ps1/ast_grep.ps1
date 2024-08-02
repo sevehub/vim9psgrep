@@ -14,6 +14,9 @@ $pattern = [Microsoft.VisualBasic.Interaction]::InputBox($msg, $title)
 # Ensure ast-grep is installed and accessible
 # TODO should be sg on linux
 if (-not(Get-Command "ast-grep" -ErrorAction SilentlyContinue)) {
+
+    $popup = New-Object -ComObject WScript.Shell
+    $popup.Popup("AstGrep not installed.", 0, "File Not Found", 48)
     Write-Error "Ast-grep (sg) is not installed or not in PATH."
     exit 1
 }
