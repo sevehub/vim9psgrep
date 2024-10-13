@@ -19,7 +19,7 @@ if exists('g:serpl_exe_path')
     serpl_exe_path = g:serpl_exe_path
 endif
 
-# serpl not function properly with PowerShell
+# serpl v.0.3.3 not working properly in PowerShell
 if serpl_exe_path != ""
     sandr = serpl_exe_path
 else

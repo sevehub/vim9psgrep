@@ -16,6 +16,8 @@ function SearchAndReplaceInFiles {
         $filePath = $_.FullName
         $content = Get-Content -Path $filePath -Raw
         $modifiedContent = $content -replace $pattern, $replace
+        $confirmationMessage = "Are you sure you want to write the following content to '$filePath'?`n`nContent:`n$pattern"
+        Write-Host $confirmationMessage
         Set-Content -Confirm -Path $filePath -Value $modifiedContent
     }
 }
@@ -34,5 +36,6 @@ $rootDirectory = Get-Location
 SearchAndReplaceInFiles -directory $rootDirectory -pattern $pattern -replace $replace
 
 Write-Host "Search and replace completed in all files within the directory root (including subdirectories)."
+
 
 
