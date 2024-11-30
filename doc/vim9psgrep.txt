@@ -1,0 +1,66 @@
+*vim9psgrep.txt*   Vim9 plugin that integrates ripgrep with Vim (via powershell)
+
+vim9psgrep                                  *vim9psgrep*
+
+CONTENTS                                    *vim9psgrep-contents*
+1. Features ............................ |vim9psgrep-features|
+2. Prerequisites ....................... |vim9psgrep-prerequisites|
+3. Installation ........................ |vim9psgrep-installation|
+4. Usage .............................. |vim9psgrep-usage|
+5. Notice ............................. |vim9psgrep-notice|
+6. Contributing ....................... |vim9psgrep-contributing|
+7. License ............................ |vim9psgrep-license|
+
+==============================================================================
+1. Features                                 *vim9psgrep-features*
+
+- **Efficient Searching**: Utilizes ripgrep's performance for swift text searches.
+- **Quickfix List Compilation**: Automatically populates the quickfix list with search results for easy access.
+- **PowerShell Script Wrapper**: Bridges Vim and ripgrep through a custom PowerShell script.
+
+==============================================================================
+2. Prerequisites                            *vim9psgrep-prerequisites*
+
+- Vim9script
+- PowerShell (Desktop or Core)
+- ripgrep (`rg.exe`)
+- Serpl (`serpl.exe`) (Optional)
+- Ast-Grep (Optional)
+
+==============================================================================
+3. Installation                             *vim9psgrep-installation*
+
+```vim
+Plug 'sevehub/vim9psgrep'
+```
+
+Set the PowerShell's version if > 5 (in your .vimrc):
+
+let g:powershell_version = 7 " legacy
+let g:powershell_version = 7 " vim9script
+==============================================================================
+4. Usage                                    vim9psgrep-usage
+
+Preset mapping:
+
+<leader>gw -- Locate the word under the cursor. (grep word)
+<leader>gp -- Open a popup to search files in the working directory tree. (grep pattern)
+<leader>gr -- Find and Replace (grep replace)
+<leader>ga -- Find code pattern (grep ast)
+
+==============================================================================
+5. Notice                                   vim9psgrep-notice
+
+This repository is in the early stages of development and is not yet ready for general use. We are actively working on adding features and refining the project. Stay tuned for updates!
+
+==============================================================================
+6. Contributing                             vim9psgrep-contributing
+
+If you're interested in improving vim9psgrep, contributions are very welcome. Please submit pull requests or report any issues you encounter.
+
+==============================================================================
+7. License                                  vim9psgrep-license
+
+vim9psgrep is open-sourced under the MIT License. For more details, see the LICENSE file in the repository.
+
+vim:tw=78:ts=8:ft=help:norl:

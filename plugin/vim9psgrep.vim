@@ -8,20 +8,26 @@ vim9script
 import autoload "../autoload/vim9psgrep/psgrep.vim"
 
 var powershell_version = 5
-var serpl_exe_path = ""
+var rgr_exe_path = ""
+var rgr_exe = "rgr.exe"
 var sandr = ""
+var get_arg = ""
+var replace_mode = 0     # 0 powershell script sandr , 1 rgr.exe
 
 if exists('g:powershell_version')
     powershell_version = g:powershell_version
 endif
 
-if exists('g:serpl_exe_path')
-    serpl_exe_path = g:serpl_exe_path
+if exists('g:rgr_exe_path')
+    rgr_exe_path = g:rgr_exe_path
+    rgr_exe = rgr_exe_path .. "\\rgr.exe"
 endif
 
-# serpl v.0.3.3 not working properly in PowerShell
-if serpl_exe_path != ""
-    sandr = serpl_exe_path
+if executable(rgr_exe)
+    echom "RGR available"
+    replace_mode = 1
+    get_arg = psgrep.Create_PS_Command(powershell_version, true) ..  psgrep.PsScript_Path( expand('<sfile>:p:h') ) .. 'getargument.ps1'
+    sandr = psgrep.Create_PS_Command(powershell_version, false) .. "rgr.exe" 
 else
     sandr = psgrep.Create_PS_Command(powershell_version, false) ..  psgrep.PsScript_Path( expand('<sfile>:p:h') ) .. 'sandr.ps1'
 endif
@@ -84,26 +90,40 @@ def AstGrep(): void
 enddef
 
 def Rprompt(): void
-   var opts = {} 
+   var search_arg = []
+   var opts = {}
+   var cmd_replace = ""
    cword = expand('<cword>') 
    # TODO set pattern from cword
-   if cword->len() > 0
-   else
-   endif
+   if replace_mode == 1
+       if cword->len() > 0
+           cmd_replace = sandr .. " " .. cword
+       else
+           search_arg = systemlist(get_arg)
+           if (search_arg->len() > 0) && (search_arg[0] != "")
+               cmd_replace = sandr .. " " .. search_arg[0]
+           else
+               return
+           endif
+       endif
+    else
+        cmd_replace = sandr
+    endif 
 
 
-   if serpl_exe_path != ""
+   if replace_mode == 1
     opts = {
         "term_finish": "close",
-        "term_rows": 20,
+        "term_rows": 80,
     }
    else
     opts = {
         "term_finish": "close",
-        "term_rows": 7
+        "term_rows": 10,
     }
    endif
-   term_start(sandr, opts)
+   echom cmd_replace
+   term_start(cmd_replace, opts)
 enddef
 
 def Run_rg(): void
