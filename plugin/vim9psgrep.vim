@@ -20,11 +20,10 @@ endif
 
 if exists('g:rgr_exe_path')
     rgr_exe_path = g:rgr_exe_path
-    rgr_exe = rgr_exe_path .. "\\rgr.exe"
+    rgr_exe = rgr_exe_path .. psgrep.OsSeparator() .. rgr_exe
 endif
 
 if executable(rgr_exe)
-    echom "RGR available"
     replace_mode = 1
     get_arg = psgrep.Create_PS_Command(powershell_version, true) ..  psgrep.PsScript_Path( expand('<sfile>:p:h') ) .. 'getargument.ps1'
     sandr = psgrep.Create_PS_Command(powershell_version, false) .. "rgr.exe" 
@@ -40,6 +39,8 @@ var notification =  psgrep.Create_PS_Command(powershell_version, true) .. psgrep
 var ignore =  psgrep.PsScript_Path( expand('<sfile>:p:h') ) .. 'global.ignore'
 
 # as in grep word
+
+nnoremap <leader>gc <Cmd>close!<CR>
 nnoremap <leader>gw <Cmd>Rgr<CR>
 nnoremap <leader>gp <Cmd>Sprompt<CR>
 nnoremap <leader>gr <Cmd>Rprompt<CR>
@@ -75,7 +76,7 @@ def Prompt_popup(): void
         call setqflist([], ' ', {'title': '', 'lines': quickfixlist })
         copen
     else
-        system(notification .. " -CustomMessage 'Oops! The specified pattern was not found.'")
+      silent system(notification .. " -CustomMessage 'Oops! The specified pattern was not found.'")
     endif
 enddef
 
@@ -85,7 +86,7 @@ def AstGrep(): void
         call setqflist([], ' ', {'title': '', 'lines': quickfixlist })
         copen
     else
-        system(notification .. " -CustomMessage 'Oops! The specified pattern was not found.'")
+         silent system(notification .. " -CustomMessage 'Oops! The specified pattern was not found.'")
     endif
 enddef
 
@@ -94,7 +95,6 @@ def Rprompt(): void
    var opts = {}
    var cmd_replace = ""
    cword = expand('<cword>') 
-   # TODO set pattern from cword
    if replace_mode == 1
        if cword->len() > 0
            cmd_replace = sandr .. " " .. cword
@@ -122,8 +122,7 @@ def Rprompt(): void
         "term_rows": 10,
     }
    endif
-   echom cmd_replace
-   term_start(cmd_replace, opts)
+   silent term_start(cmd_replace, opts)
 enddef
 
 def Run_rg(): void
@@ -137,6 +136,6 @@ def Run_rg(): void
         call setqflist([], ' ', {'title': expand('<cword>') ..  ' found in:', 'lines': quickfixlist })
         copen
     else
-        system(notification .. " -CustomMessage 'Oops! " .. cword .. " was not found.'")
+        silent system(notification .. " -CustomMessage 'Oops! " .. cword .. " was not found.'")
     endif
 enddef

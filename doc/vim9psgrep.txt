@@ -36,8 +36,7 @@ Plug 'sevehub/vim9psgrep'
 
 Set the PowerShell's version if > 5 (in your .vimrc):
 
-let g:powershell_version = 7 " legacy
-let g:powershell_version = 7 " vim9script
+let g:powershell_version = 7 
 ==============================================================================
 4. Usage                                    vim9psgrep-usage
 
@@ -47,6 +46,8 @@ Preset mapping:
 <leader>gp -- Open a popup to search files in the working directory tree. (grep pattern)
 <leader>gr -- Find and Replace (grep replace)
 <leader>ga -- Find code pattern (grep ast)
+
+To close a running regrep terminal window, you can use the ESC key and the leader key followed by gc:
 
 ==============================================================================
 5. Notice                                   vim9psgrep-notice
