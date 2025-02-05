@@ -24,7 +24,6 @@ CONTENTS                                    *vim9psgrep-contents*
 - Vim9script
 - PowerShell (Desktop or Core)
 - ripgrep (`rg.exe`)
-- Serpl (`serpl.exe`) (Optional)
 - Ast-Grep (Optional)
 
 ==============================================================================
