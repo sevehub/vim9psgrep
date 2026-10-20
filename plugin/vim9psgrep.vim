@@ -71,7 +71,7 @@ enddef
 
 # open a prompt for query 
 def Prompt_popup(): void
-    quickfixlist =  systemlist(rg_prompt)
+    quickfixlist =  psgrep.SystemListClean(rg_prompt)
     if quickfixlist->len() > 0
         call setqflist([], ' ', {'title': '', 'lines': quickfixlist })
         copen
@@ -81,7 +81,7 @@ def Prompt_popup(): void
 enddef
 
 def AstGrep(): void
-    quickfixlist =  systemlist(ast_grep)
+    quickfixlist =  psgrep.SystemListClean(ast_grep)
     if quickfixlist->len() > 0
         call setqflist([], ' ', {'title': '', 'lines': quickfixlist })
         copen
@@ -99,7 +99,7 @@ def Rprompt(): void
        if cword->len() > 0
            cmd_replace = sandr .. " " .. cword
        else
-           search_arg = systemlist(get_arg)
+           search_arg = psgrep.SystemListClean(get_arg)
            if (search_arg->len() > 0) && (search_arg[0] != "")
                cmd_replace = sandr .. " " .. search_arg[0]
            else
@@ -131,7 +131,7 @@ def Run_rg(): void
 
     echo 'Searching files for pattern: ' .. rg_command .. ' -pattern "' .. cword .. '"'
     
-    quickfixlist =  systemlist(rg_command .. ' -pattern "' .. cword .. '"')
+    quickfixlist =  psgrep.SystemListClean(rg_command .. ' -pattern "' .. cword .. '"')
     if quickfixlist->len() > 0
         call setqflist([], ' ', {'title': expand('<cword>') ..  ' found in:', 'lines': quickfixlist })
         copen

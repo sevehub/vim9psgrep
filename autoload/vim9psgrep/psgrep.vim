@@ -1,4 +1,12 @@
 vim9script
+export def SystemListClean(cmd: string): list<string>
+    var result = systemlist(cmd)
+    if has("win32")
+        result->map((_, v) => trim(v, "\r", 2))
+    endif
+    return result
+enddef
+
 
 export def Create_PS_Command(ps_version: number, noninteractive: bool): string
     var powershellcommand = ""
